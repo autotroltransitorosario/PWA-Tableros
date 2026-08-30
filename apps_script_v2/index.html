@@ -1,363 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <base target="_top">
-  <meta charset="utf-8">
-  <style>
-    :root {
-      --primary: #1F4E78;
-      --primary-dark: #163955;
-      --ok: #2e7d32;
-      --bad: #c62828;
-      --bg: #f3f5f7;
-      --card: #ffffff;
-      --border: #d8dee3;
-      --text: #1c2b36;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 16px;
-    }
-    .container { max-width: 480px; margin: 0 auto; }
-    h1 {
-      font-size: 19px;
-      color: var(--primary-dark);
-      margin: 4px 0 16px;
-      text-align: center;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    }
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin: 10px 0 4px;
-      color: var(--primary-dark);
-    }
-    input[type="text"], input[type="number"], select, textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 14px;
-      font-family: Arial, sans-serif;
-      background: #fff;
-    }
-    textarea { resize: vertical; min-height: 60px; }
-    .search-row { display: flex; gap: 8px; }
-    .search-row input { flex: 1; }
-    button {
-      cursor: pointer;
-      border: none;
-      border-radius: 6px;
-      padding: 11px 16px;
-      font-size: 14px;
-      font-weight: bold;
-      font-family: Arial, sans-serif;
-    }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-primary:disabled { background: #9fb3c2; cursor: not-allowed; }
-    .btn-secondary { background: #eef1f4; color: var(--text); border: 1px solid var(--border); }
-    .full-width { width: 100%; margin-top: 6px; }
-    .info-box {
-      background: #eef4fa;
-      border: 1px solid #c6dcee;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 13px;
-      margin-top: 10px;
-      line-height: 1.5;
-    }
-    .info-box strong { color: var(--primary-dark); }
-    .hidden { display: none !important; }
-    .radio-group { display: flex; gap: 10px; margin-top: 4px; }
-    .radio-option {
-      flex: 1;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 9px;
-      text-align: center;
-      font-size: 13px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .radio-option input { display: none; }
-    .radio-option.selected-si { background: #e6f4ea; border-color: var(--ok); color: var(--ok); font-weight: bold; }
-    .radio-option.selected-no { background: #fdecea; border-color: var(--bad); color: var(--bad); font-weight: bold; }
-    .radio-option.selected-mal { background: #fdecea; border-color: var(--bad); color: var(--bad); font-weight: bold; }
-    .radio-option.selected-bien { background: #e6f4ea; border-color: var(--ok); color: var(--ok); font-weight: bold; }
-    .photo-input {
-      border: 1px dashed var(--border);
-      border-radius: 6px;
-      padding: 10px;
-      font-size: 13px;
-      background: #fafbfc;
-    }
-    .photo-preview {
-      margin-top: 8px;
-      max-width: 100%;
-      max-height: 140px;
-      border-radius: 6px;
-      display: none;
-      border: 1px solid var(--border);
-    }
-    .status {
-      font-size: 13px;
-      text-align: center;
-      margin-top: 10px;
-      padding: 8px;
-      border-radius: 6px;
-      display: none;
-    }
-    .status.ok { display: block; background: #e6f4ea; color: var(--ok); }
-    .status.err { display: block; background: #fdecea; color: var(--bad); }
-    .status.loading { display: block; background: #eef4fa; color: var(--primary-dark); }
-    .spinner {
-      display: inline-block;
-      width: 14px; height: 14px;
-      border: 2px solid #cdd9e2;
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+  <meta charset="UTF-8">
+  <title>Tableros - Visor QR V6</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1F4E78">
+  <meta name="description" content="Visor de información de tableros eléctricos vía QR">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🔌 Relevamiento de Tableros</h1>
-
-    <!-- BUSCADOR -->
-    <div class="card">
-      <label for="idTablero">Buscar tablero por ID (columna "Nombre")</label>
-      <div class="search-row">
-        <input type="text" id="idTablero" placeholder="Ej: 10101" inputmode="numeric">
-        <button class="btn-primary" onclick="buscar()">Buscar</button>
-      </div>
-      <div id="infoBox" class="info-box hidden"></div>
-      <div id="notFoundBox" class="status err hidden">No se encontró ningún tablero con ese ID en la planilla.</div>
+  <header>
+    <div class="header-inner">
+      <span class="logo">🔌 Tableros QR V6</span>
+      <button id="installBtn" class="hidden">📲 Instalar</button>
     </div>
+  </header>
 
-    <!-- FORMULARIO -->
-    <form id="form" class="hidden" onsubmit="guardar(event)">
-      <div class="card">
-        <label>Estado</label>
-        <div class="radio-group" id="grupoEstado">
-          <label class="radio-option" data-value="BIEN"><input type="radio" name="estado" value="BIEN">BIEN</label>
-          <label class="radio-option" data-value="MAL"><input type="radio" name="estado" value="MAL">MAL</label>
-        </div>
+  <main id="app" class="container">
+    <div class="info">Escaneá el código QR de un tablero para ver su información.</div>
+  </main>
 
-        <label>Columna</label>
-        <div class="radio-group" id="grupoColumna">
-          <label class="radio-option" data-value="SI"><input type="radio" name="columna" value="SI">SI</label>
-          <label class="radio-option" data-value="NO"><input type="radio" name="columna" value="NO">NO</label>
-        </div>
+  <footer>
+    <span id="connStatus" class="online">🟢 En línea</span>
+  </footer>
 
-        <label>Cierre Puerta</label>
-        <div class="radio-group" id="grupoCierre">
-          <label class="radio-option" data-value="SI"><input type="radio" name="cierrePuerta" value="SI">SI</label>
-          <label class="radio-option" data-value="NO"><input type="radio" name="cierrePuerta" value="NO">NO</label>
-        </div>
-
-        <label>ID</label>
-        <div class="radio-group" id="grupoId">
-          <label class="radio-option" data-value="SI"><input type="radio" name="idCol" value="SI">SI</label>
-          <label class="radio-option" data-value="NO"><input type="radio" name="idCol" value="NO">NO</label>
-        </div>
-
-        <label>Circuito con PAT</label>
-        <div class="radio-group" id="grupoPAT">
-          <label class="radio-option" data-value="SI"><input type="radio" name="circuitoPAT" value="SI">SI</label>
-          <label class="radio-option" data-value="NO"><input type="radio" name="circuitoPAT" value="NO">NO</label>
-        </div>
-
-        <label for="observaciones">Observaciones</label>
-        <textarea id="observaciones" placeholder="Ej: Tablero picado, columna fuera de plomo..."></textarea>
-      </div>
-
-      <div class="card">
-        <label>Foto Externa</label>
-        <input class="photo-input" type="file" accept="image/*" capture="environment" id="fotoExternaInput" onchange="previsualizar('fotoExternaInput','previewExterna')">
-        <img id="previewExterna" class="photo-preview">
-
-        <label>Foto Interna</label>
-        <input class="photo-input" type="file" accept="image/*" capture="environment" id="fotoInternaInput" onchange="previsualizar('fotoInternaInput','previewInterna')">
-        <img id="previewInterna" class="photo-preview">
-      </div>
-
-      <button type="submit" class="btn-primary full-width" id="btnGuardar">Guardar inspección</button>
-      <button type="button" class="btn-secondary full-width" onclick="resetForm()" style="margin-top:8px;">Cancelar / nueva búsqueda</button>
-      <div id="status" class="status"></div>
-    </form>
+  <!-- Visor ampliado del plano (lightbox) -->
+  <div id="planoModal" class="modal-overlay hidden" onclick="cerrarModalPlano(event)">
+    <button type="button" class="modal-close" onclick="cerrarModalPlano(event)" aria-label="Cerrar">✕</button>
+    <img id="modalImg" class="modal-img" src="" alt="Plano ampliado" onclick="event.stopPropagation()">
   </div>
 
-  <script>
-    let tableroActual = null;
-
-    function seleccionar(grupoId, valor) {
-      document.querySelectorAll('#' + grupoId + ' .radio-option').forEach(function(opt) {
-        opt.classList.remove('selected-si','selected-no','selected-mal','selected-bien');
-        if (opt.dataset.value === valor) {
-          opt.querySelector('input').checked = true;
-          const cls = valor === 'SI' ? 'selected-si' : valor === 'NO' ? 'selected-no' : valor === 'MAL' ? 'selected-mal' : 'selected-bien';
-          opt.classList.add(cls);
-        }
-      });
-    }
-
-    // Delegar clicks en las opciones de radio
-    document.querySelectorAll('.radio-option').forEach(function(opt) {
-      opt.addEventListener('click', function() {
-        const grupo = opt.parentElement.id;
-        seleccionar(grupo, opt.dataset.value);
-      });
-    });
-
-    function buscar() {
-      const id = document.getElementById('idTablero').value.trim();
-      if (!id) return;
-      document.getElementById('infoBox').classList.add('hidden');
-      document.getElementById('notFoundBox').classList.add('hidden');
-      document.getElementById('form').classList.add('hidden');
-
-      google.script.run
-        .withSuccessHandler(function(res) {
-          if (!res.found) {
-            document.getElementById('notFoundBox').classList.remove('hidden');
-            return;
-          }
-          tableroActual = res;
-          const info = document.getElementById('infoBox');
-          info.classList.remove('hidden');
-          info.innerHTML =
-            '<strong>' + res.idTablero + '</strong> — ' + (res.calle || '') + ' ' + (res.altura || '') +
-            '<br>Última inspección registrada: ' + (res.ultimaInspeccion || '—');
-
-          // Precargar valores existentes si los hay
-          if (res.estado) seleccionar('grupoEstado', res.estado);
-          if (res.columna) seleccionar('grupoColumna', res.columna);
-          if (res.cierrePuerta) seleccionar('grupoCierre', res.cierrePuerta.toString().toUpperCase());
-          if (res.idCol) seleccionar('grupoId', res.idCol.toString().toUpperCase());
-          if (res.circuitoPAT) seleccionar('grupoPAT', res.circuitoPAT.toString().toUpperCase());
-          document.getElementById('observaciones').value = res.observaciones || '';
-
-          document.getElementById('form').classList.remove('hidden');
-          document.getElementById('status').className = 'status';
-          document.getElementById('status').textContent = '';
-        })
-        .withFailureHandler(function(err) {
-          document.getElementById('notFoundBox').textContent = 'Error al buscar: ' + err.message;
-          document.getElementById('notFoundBox').classList.remove('hidden');
-        })
-        .buscarTablero(id);
-    }
-
-    function previsualizar(inputId, imgId) {
-      const input = document.getElementById(inputId);
-      const img = document.getElementById(imgId);
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          img.src = e.target.result;
-          img.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    function leerArchivoComoBase64(inputId) {
-      return new Promise(function(resolve) {
-        const input = document.getElementById(inputId);
-        if (!input.files || !input.files[0]) { resolve(null); return; }
-        const file = input.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          resolve({ base64: e.target.result, mimeType: file.type || 'image/jpeg' });
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function guardar(evt) {
-      evt.preventDefault();
-      if (!tableroActual) return;
-
-      const statusEl = document.getElementById('status');
-      const btn = document.getElementById('btnGuardar');
-      btn.disabled = true;
-      statusEl.className = 'status loading';
-      statusEl.innerHTML = '<span class="spinner"></span> Guardando inspección...';
-
-      const estado = document.querySelector('input[name="estado"]:checked');
-      const columna = document.querySelector('input[name="columna"]:checked');
-      const cierrePuerta = document.querySelector('input[name="cierrePuerta"]:checked');
-      const idCol = document.querySelector('input[name="idCol"]:checked');
-      const circuitoPAT = document.querySelector('input[name="circuitoPAT"]:checked');
-
-      const fotoExterna = await leerArchivoComoBase64('fotoExternaInput');
-      const fotoInterna = await leerArchivoComoBase64('fotoInternaInput');
-
-      const data = {
-        idTablero: tableroActual.idTablero,
-        estado: estado ? estado.value : '',
-        columna: columna ? columna.value : '',
-        cierrePuerta: cierrePuerta ? cierrePuerta.value : '',
-        idCol: idCol ? idCol.value : '',
-        circuitoPAT: circuitoPAT ? circuitoPAT.value : '',
-        observaciones: document.getElementById('observaciones').value,
-        fotoExterna: fotoExterna,
-        fotoInterna: fotoInterna
-      };
-
-      google.script.run
-        .withSuccessHandler(function(res) {
-          btn.disabled = false;
-          statusEl.className = 'status ok';
-          statusEl.textContent = '✅ Guardado correctamente (' + res.fecha + ')';
-        })
-        .withFailureHandler(function(err) {
-          btn.disabled = false;
-          statusEl.className = 'status err';
-          statusEl.textContent = '❌ ' + err.message;
-        })
-        .guardarInspeccion(data);
-    }
-
-    function resetForm() {
-      tableroActual = null;
-      document.getElementById('idTablero').value = '';
-      document.getElementById('infoBox').classList.add('hidden');
-      document.getElementById('notFoundBox').classList.add('hidden');
-      document.getElementById('form').classList.add('hidden');
-      document.getElementById('observaciones').value = '';
-      document.querySelectorAll('.radio-option').forEach(function(opt) {
-        opt.classList.remove('selected-si','selected-no','selected-mal','selected-bien');
-        opt.querySelector('input').checked = false;
-      });
-      ['previewExterna','previewInterna'].forEach(function(id) {
-        const img = document.getElementById(id);
-        img.style.display = 'none';
-        img.src = '';
-      });
-      ['fotoExternaInput','fotoInternaInput'].forEach(function(id) {
-        document.getElementById(id).value = '';
-      });
-      document.getElementById('status').className = 'status';
-      document.getElementById('status').textContent = '';
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
