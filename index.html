@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableros - Visor QR V6</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1F4E78">
+  <meta name="description" content="Visor de información de tableros eléctricos vía QR">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="logo">🔌 Tableros QR V6</span>
+      <button id="installBtn" class="hidden">📲 Instalar</button>
+    </div>
+  </header>
+
+  <main id="app" class="container">
+    <div class="info">Escaneá el código QR de un tablero para ver su información.</div>
+  </main>
+
+  <footer>
+    <span id="connStatus" class="online">🟢 En línea</span>
+  </footer>
+
+  <!-- Visor ampliado del plano (lightbox) -->
+  <div id="planoModal" class="modal-overlay hidden" onclick="cerrarModalPlano(event)">
+    <button type="button" class="modal-close" onclick="cerrarModalPlano(event)" aria-label="Cerrar">✕</button>
+    <img id="modalImg" class="modal-img" src="" alt="Plano ampliado" onclick="event.stopPropagation()">
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
