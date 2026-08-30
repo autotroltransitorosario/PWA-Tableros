@@ -3,7 +3,7 @@
 // publicado como aplicación web (ver README.md, paso "Backend").
 // Tiene forma: https://script.google.com/macros/s/XXXXXXXX/exec
 // ============================================================
-const API_URL = 'https://script.google.com/macros/s/AKfycbxM0oCZJSx6mlKH_56AJkuwB6Ad-fCo_hcM-enw3Rc2EA65ifDswK3pi6McYsqhRU6l/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzBk70Nei6YxhEjzrFn2HAJvgwV2vSgDgJd4S9XLG3fShveCrTB3FJQKMW9oyUaokP-/exec';
 
 function getIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
